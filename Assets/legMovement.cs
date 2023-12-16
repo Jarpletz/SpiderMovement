@@ -19,6 +19,8 @@ public class legMovement : MonoBehaviour
 
    float rayDirectionSign=1;
 
+   [SerializeField] EdgeCollider2D platform;
+   List<Vector2> targetPos = new List<Vector2>();
 
 
    Rigidbody2D rb;
@@ -38,6 +40,7 @@ public class legMovement : MonoBehaviour
       }
    }
    public List<Leg> legs = new List<Leg>();
+   
 
    void Start()
    {
@@ -47,6 +50,9 @@ public class legMovement : MonoBehaviour
       {
          legs.Add(new Leg(targets[i], bounds[i]));
       }
+      targetPos.Add((Vector2)legs[0].target.position);
+      targetPos.Add((Vector2)legs[1].target.position);
+
    }
 
    private void FixedUpdate()
@@ -93,6 +99,17 @@ public class legMovement : MonoBehaviour
          //getNextPosition(legs[i]);
 
       }
+
+      targetPos[0] = (Vector2)legs[0].target.position;
+      targetPos[1] = (Vector2)legs[1].target.position;
+      if (legs[0].isStepping || legs[1].isStepping)
+      {
+         platform.enabled = false;
+      }
+      else platform.enabled = true;
+      Debug.Log(platform.SetPoints(targetPos));
+
+
    }
 
    private void OnDrawGizmos()
@@ -122,12 +139,12 @@ public class legMovement : MonoBehaviour
    {
 
       RaycastHit2D [] hits = new RaycastHit2D[numRays];
+
+      float directionOfCheck = rb.velocity.x / Mathf.Abs(rb.velocity.x);
+
       for (int i = 0; i < numRays; i++)
       {
-
-         
-
-         float angle = (transform.rotation.z) + (i * (2 * Mathf.PI) / numRays * rayDirectionSign )+(Mathf.PI/2);
+         float angle = (transform.rotation.z) + (i * (2 * Mathf.PI) / numRays * rayDirectionSign )+(Mathf.PI);
          Debug.Log(rayDirectionSign);
          Vector2 dir = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
 

@@ -28,9 +28,11 @@ public class playerMovement : MonoBehaviour
       {
          float dx = lM.legs[1].target.transform.position.x - lM.legs[0].target.transform.position.x;
          float dy = lM.legs[1].target.transform.position.y - lM.legs[0].target.transform.position.y;
-         Debug.Log("(" + dx + "," + dy + ")");
-         Debug.DrawRay(transform.position, new Vector3(dy,-dx)*5,Color.yellow);
+         //Debug.Log("(" + dx + "," + dy + ")");
+         Debug.DrawRay(transform.position, new Vector3(dy,-dx)*5,Color.yellow);//Normal to Legs
          Debug.DrawRay(lM.legs[0].target.transform.position, new Vector3(dx,dy) , Color.magenta);
+         //From the first leg in the directiion of the second Leg
+
          normalVector = Vector3.Normalize(new Vector3(dy, -dx));
       }
 
